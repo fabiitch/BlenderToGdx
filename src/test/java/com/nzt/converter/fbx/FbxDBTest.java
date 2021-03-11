@@ -1,23 +1,48 @@
 package com.nzt.converter.fbx;
 
+import com.nzt.converter.utils.Utils;
+import com.nzt.converter.utils.WrapperConvertFile;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FbxDBTest {
     @Test
-    public void testReadDbTxt(){
+    public void testReadDbTxt() {
         ClassLoader classLoader = getClass().getClassLoader();
-        String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
-        FbxDB fbxDB = new FbxDB(fbxFolderPath);
+        String fbxFolderPath = classLoader.getResource("fbx/simpleTest").getPath();
+        FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
         fbxDB.initTxtDb();
+        Assertions.assertEquals(2, fbxDB.mapTxtFiles.size());
     }
+
     @Test
-    public void testFindFbxFiles(){
+    public void testFindFbxFiles() {
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
-        final String fbxResultPath = classLoader.getResource("fbx/resultFiles").getPath();
 
-        FbxDB fbxDB = new FbxDB(fbxFolderPath);
+        FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
         fbxDB.initFbx();
+        Assertions.assertEquals(3, fbxDB.mapFbxFiles.size());
     }
 
+    @Test
+    @Ignore
+    public void testCompareFbxAndDBTxt() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
+        FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
+        fbxDB.initFbx();
+        fbxDB.initTxtDb();
+
+        List<WrapperConvertFile> wrapperConvertFiles = fbxDB.compareFbxFilesAndTxtDB();
+        List<WrapperConvertFile> listToConvert = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
+        List<WrapperConvertFile> listToNotConvert = wrapperConvertFiles.stream().filter(w -> !w.toConvert).collect(Collectors.toList());
+
+        Assertions.assertEquals(2, listToConvert.size());
+        Assertions.assertEquals(1, listToNotConvert.size());
+    }
 }
