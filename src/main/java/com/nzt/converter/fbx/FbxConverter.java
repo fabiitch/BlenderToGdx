@@ -34,7 +34,6 @@ public class FbxConverter {
         this.fbxDB.initTxtDb();
 
         List<WrapperConvertFile> wrapperConvertFiles = this.fbxDB.compareFbxFilesAndTxtDB();
-
         List<WrapperConvertFile> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
 
         for (WrapperConvertFile file : toConvertList) {
