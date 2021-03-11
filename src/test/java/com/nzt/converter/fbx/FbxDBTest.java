@@ -26,7 +26,7 @@ public class FbxDBTest {
 
         FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
         fbxDB.initFbx();
-        Assertions.assertEquals(3, fbxDB.mapFbxFiles.size());
+        Assertions.assertEquals(4, fbxDB.mapFbxFiles.size());
     }
 
     @Test
