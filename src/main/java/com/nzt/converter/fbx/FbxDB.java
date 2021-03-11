@@ -2,6 +2,7 @@ package com.nzt.converter.fbx;
 
 import com.nzt.converter.utils.Utils;
 import com.nzt.converter.utils.WrapperConvertFile;
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -25,6 +26,7 @@ public class FbxDB {
 
     private static String TXT_SEPARATOR = "###";
     private static String CHARSET = "UTF-8";
+
 
     public FbxDB(String fbxFolderPath) {
         this.fbxFolderPath = fbxFolderPath;
@@ -63,7 +65,7 @@ public class FbxDB {
         }
     }
 
-    public void initTxtDb() {
+    public void readCsvDb() {
         try {
             File dbTxt = new File(fbxFolderPath + "/db.txt");
             List<String> lines = null;
@@ -77,7 +79,7 @@ public class FbxDB {
         }
     }
 
-    public void initFbx() {
+    public void findAllFbxFiles() {
         Path relativePath = Paths.get(fbxFolderPath);
         try (Stream<Path> walk = Files.walk(relativePath)) {
             List<String> result = walk.filter(Files::isRegularFile).filter(f -> f.getFileName().toString().endsWith(".fbx"))

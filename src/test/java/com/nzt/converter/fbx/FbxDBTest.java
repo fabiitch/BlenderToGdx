@@ -15,7 +15,7 @@ public class FbxDBTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/simpleTest").getPath();
         FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
-        fbxDB.initTxtDb();
+        fbxDB.readCsvDb();
         Assertions.assertEquals(2, fbxDB.mapTxtFiles.size());
     }
 
@@ -25,7 +25,7 @@ public class FbxDBTest {
         String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
 
         FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
-        fbxDB.initFbx();
+        fbxDB.findAllFbxFiles();
         Assertions.assertEquals(4, fbxDB.mapFbxFiles.size());
     }
 
@@ -35,8 +35,8 @@ public class FbxDBTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
         FbxDB fbxDB = new FbxDB(Utils.replacePath(fbxFolderPath));
-        fbxDB.initFbx();
-        fbxDB.initTxtDb();
+        fbxDB.findAllFbxFiles();
+        fbxDB.readCsvDb();
 
         List<WrapperConvertFile> wrapperConvertFiles = fbxDB.compareFbxFilesAndTxtDB();
         List<WrapperConvertFile> listToConvert = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
