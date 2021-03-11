@@ -22,7 +22,7 @@ public class FbxConverter {
 
     public FbxConverter(String fbxFolderPath, String resultPath) {
         ClassLoader classLoader = getClass().getClassLoader();
-        rt = Runtime.getRuntime();
+        this.rt = Runtime.getRuntime();
         this.fbxExePath = Utils.replacePath(classLoader.getResource("fbx-conv.exe").getPath());
         this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
         this.g3dbPath = Utils.replacePath(resultPath);
@@ -30,8 +30,8 @@ public class FbxConverter {
 
     public void readDbAndConvertAll() {
         this.fbxDB = new FbxDB(fbxFolderPath);
-        this.fbxDB.initFbx();
-        this.fbxDB.initTxtDb();
+        this.fbxDB.findAllFbxFiles();
+        this.fbxDB.readCsvDb();
 
         List<WrapperConvertFile> wrapperConvertFiles = this.fbxDB.compareFbxFilesAndTxtDB();
         List<WrapperConvertFile> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
