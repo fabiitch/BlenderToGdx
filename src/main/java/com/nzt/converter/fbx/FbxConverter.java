@@ -3,6 +3,7 @@ package com.nzt.converter.fbx;
 import com.nzt.converter.utils.ConvertFileWrapper;
 import com.nzt.converter.utils.CsvDb;
 import com.nzt.converter.utils.Utils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
@@ -21,25 +22,38 @@ public class FbxConverter {
     private FbxConverterOptions options;
 
     public FbxConverter(FbxConverterOptions options) {
-        this.options = options;
         ClassLoader classLoader = getClass().getClassLoader();
+        this.options = options;
         this.rt = Runtime.getRuntime();
-        this.fbxExePath = Utils.replacePath(classLoader.getResource("fbx-conv.exe").getPath());
 
+        File fbxConvExeFile = new File(options.fbxFolderPath + "/fbx-conv.exe");
+        if (!fbxConvExeFile.exists()) {
+            try {
+                FileUtils.copyURLToFile(classLoader.getResource("fbx-conv.exe"), fbxConvExeFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
         this.csvDb = new CsvDb(options.fbxFolderPath, CSV_FILE_NAME);
+
+        System.out.println("Init Done");
+        System.out.println("fbxFolderPath : " + options.fbxFolderPath);
+        System.out.println("exportFolderPath : " + options.exportFolderPath);
+        System.out.println("fbx-conv.exe : " + options.fbxFolderPath);
     }
 
     public void readDbAndConvertAll() {
         csvDb.read();
         List<ConvertFileWrapper> wrapperConvertFiles = csvDb.compareWithExisting(".fbx");
         List<ConvertFileWrapper> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
-
+        System.out.println(toConvertList.size() + " / " + wrapperConvertFiles.size() + " files to convert");
         for (ConvertFileWrapper file : toConvertList) {
             String folderPath = FilenameUtils.getFullPathNoEndSeparator(file.relativePath);
             Utils.createAllFolderForPath(options.exportFolderPath, folderPath);
             convertFile(file.relativePath);
         }
-        csvDb.write(toConvertList);
+        csvDb.write(wrapperConvertFiles);
     }
 
 

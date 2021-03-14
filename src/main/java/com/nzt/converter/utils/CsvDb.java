@@ -34,6 +34,7 @@ public class CsvDb {
         List<ConvertFileWrapper> list = new ArrayList<>();
         HashMap<String, Long> mapFilesInFolder = FileFinder.findAllFiles(folderStartPath, extensionFiles);
 
+        System.out.println("Found " + mapFilesInFolder.size() + " files .fbx");
         for (Map.Entry<String, Long> fileEntry : mapFilesInFolder.entrySet()) {
             File fbxFile = new File(relativePath + "/" + fileEntry.getKey());
             String relativePathFile = fileEntry.getKey();
@@ -67,7 +68,7 @@ public class CsvDb {
                 csvValues.put(path, Long.valueOf(millis));
             }
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+          return new HashMap<>();
         }
         return this.csvValues;
     }
