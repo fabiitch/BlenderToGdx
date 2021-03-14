@@ -1,4 +1,7 @@
 # Blender to Gdx
+[![Build](https://github.com/fabiitch/BlenderToGdx/workflows/Java%20CI/badge.svg?branch=master)](https://github.com/fabiitch/BlenderToGdx/actions/workflows/gradle.yml) (Java CI)
+[![Downloads](https://img.shields.io/github/downloads/fabiitch/BlenderToGdx/total.svg)](https://github.com/fabiitch/BlenderToGdx/releases)
+
 ### Step 1 : Blender to Fbx format => not impl
 ### Step 2 : Fbx to G3DB =>  impl
 ****
