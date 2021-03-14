@@ -2,17 +2,26 @@
 ### Step 1 : Blender to Fbx format => not impl
 ### Step 2 : Fbx to G3DB =>  impl
 ****
+### Why
+When u modify a 3D model in blender, 
+1) you have to export it as fbx
+2) use fbx-conv.exe for convert as g3db/g3dj 
+
+The goal of this project is to do this 2 step automatically at each build.gradle for all files.
+
+### Configuration
+For fbx to libGDX, you have to create a properties file for export option, [example properties file](src/test/resources/fbx/fullTest/fbx-to-gdx.properties)
+the required properties are 'fbxFolderPath' (folder who contains all .fbx) and 'exportFolderPath' (generally your assets/models folder)
 ****
 ### How to use ?
-1) Use jar directly java -jar "fbxFolderPath" "assetsPath"
+1) Use jar directly java -jar blenderToGdx
 2) Add to your gradle.build
 3) Modify source to set your path directly and rexport as jar
 ****
-### Configuration
-For fbx->gdx you can 
+
 ****
 ### How its work ? (example for fbx->G3DB/G3DJ) 
 1) Scan the entry directory and list all .fbx
 2) Convert all fbx files to .G3DB/G3DJ and keep file name and tree structure
-3) Write in a CSV file(fbx-convert-db.csv) the path and last modification date of the .fbx
+3) Write in a CSV file([fbx-convert-db.csv](src/test/resources/fbx/fullTest/fbx-to-gdx-db.csv)) the path and last modification date of the .fbx
 4) Next execution will look the last modification date of the .fbx and compare with CSV to check if the file need to be reexported
