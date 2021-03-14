@@ -10,7 +10,7 @@ public class FileFinderTest {
     @Test
     public void testFindFbxFiles() {
         ClassLoader classLoader = getClass().getClassLoader();
-        String fbxFolderPath = classLoader.getResource("fbx/fbxFiles").getPath();
+        String fbxFolderPath = classLoader.getResource("fbx/fullTest").getPath();
 
         HashMap<String, Long> fbxFiles = FileFinder.findAllFiles(fbxFolderPath, ".fbx");
         Assertions.assertEquals(4, fbxFiles.size());
