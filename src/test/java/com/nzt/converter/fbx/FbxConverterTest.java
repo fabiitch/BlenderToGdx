@@ -29,7 +29,6 @@ public class FbxConverterTest {
     public void convertFullTest() {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        PropertiesFileReader propertiesFileReader = new PropertiesFileReader();
         String fbxFolderPath = classLoader.getResource("fbx/fullTest").getPath();
         String exportPath = classLoader.getResource("fbx/g3db").getPath();
 
