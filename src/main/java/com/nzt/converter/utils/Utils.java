@@ -19,14 +19,12 @@ public class Utils {
         return path;
     }
 
-
     public static boolean createAllFolderForPath(String startPath, String pathFile) {
-
         String[] split = pathFile.split("/");
         String s = startPath;
         boolean ok = true;
         for (int i = 0; i < split.length; i++) {
-            s += "/"+split[i];
+            s += "/" + split[i];
             File file = new File(s);
             if (!file.exists()) {
                 ok &= file.mkdir();

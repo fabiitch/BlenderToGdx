@@ -1,8 +1,10 @@
 package com.nzt.converter.fbx;
 
+import com.nzt.converter.utils.ConvertFileWrapper;
+import com.nzt.converter.utils.CsvDb;
 import com.nzt.converter.utils.Utils;
-import com.nzt.converter.utils.WrapperConvertFile;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,37 +14,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FbxConverter {
-
+    private static String CSV_FILE_NAME = "fbx-convert-db.csv";
     private Runtime rt;
     private String fbxFolderPath;
     private String g3dbPath;
     private String fbxExePath;
 
-    private FbxDB fbxDB;
+    private CsvDb csvDb;
 
     public FbxConverter(String fbxFolderPath, String resultPath) {
         ClassLoader classLoader = getClass().getClassLoader();
         this.rt = Runtime.getRuntime();
-        this.fbxExePath = Utils.replacePath(classLoader.getResource("fbx-conv.exe").getPath());
+        try {
+            this.fbxExePath = Utils.replacePath(IOUtils.toString(classLoader.getResourceAsStream("fbx-conv.exe"), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
         this.g3dbPath = Utils.replacePath(resultPath);
+        this.csvDb = new CsvDb(fbxFolderPath,CSV_FILE_NAME);
     }
 
     public void readDbAndConvertAll() {
-        this.fbxDB = new FbxDB(fbxFolderPath);
-        this.fbxDB.findAllFbxFiles();
-        this.fbxDB.readCsvDb();
+        csvDb.read();
 
-        List<WrapperConvertFile> wrapperConvertFiles = this.fbxDB.compareFbxFilesAndTxtDB();
-        List<WrapperConvertFile> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
+        List<ConvertFileWrapper> wrapperConvertFiles = csvDb.compareWithExisting(".txt");
+        List<ConvertFileWrapper> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
 
-        for (WrapperConvertFile file : toConvertList) {
+        for (ConvertFileWrapper file : toConvertList) {
             String folderPath = FilenameUtils.getFullPathNoEndSeparator(file.relativePath);
             Utils.createAllFolderForPath(g3dbPath, folderPath);
             convertFile(file.relativePath);
         }
-        fbxDB.rewriteTxtDb(toConvertList);
+        csvDb.write(toConvertList);
     }
+
 
     public void convertFile(String filePath) {
 
