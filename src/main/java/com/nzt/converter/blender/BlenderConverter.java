@@ -17,7 +17,6 @@ public class BlenderConverter {
         this.fbxFolderPath = fbxFolderPath;
     }
 
-
     public void convertFile(String filePath){
 
         String blenderCommand = "blender -b -o";
