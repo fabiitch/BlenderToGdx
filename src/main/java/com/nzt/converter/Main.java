@@ -1,28 +1,25 @@
 package com.nzt.converter;
 
 import com.nzt.converter.fbx.FbxConverter;
+import com.nzt.converter.fbx.FbxConverterOptions;
+import com.nzt.converter.utils.PropertiesFileReader;
+
+import java.util.Properties;
 
 public class Main {
 
 
     public static void main(String[] args) {
-        if (args == null || args.length < 2) {
-            System.out.println("Need Fbx folder path and G3DB/G3DJ folder path");
-            System.exit(0);
-        }
-        String fbxFolderPath = args[0];
-        String gdxExportPath = args[1];
-        if (args.length == 3 && args[2] == "isRelativePath") {
-            String initPath = System.getProperty("user.dir");
-            System.out.println("Working Directory = " + initPath);
-            fbxFolderPath = initPath + "/" + fbxFolderPath;
-            gdxExportPath = initPath + "/" + gdxExportPath;
-        }
-        Main main = new Main(fbxFolderPath, gdxExportPath);
-    }
+        PropertiesFileReader propertiesFileReader = new PropertiesFileReader();
+        String initPath = System.getProperty("user.dir");
 
-    public Main(String fbxFolderPath, String gdxExportPath) {
-        FbxConverter fbxConverter = new FbxConverter(fbxFolderPath, gdxExportPath);
+        Properties properties = propertiesFileReader.read(initPath + "/fbx-to-gdx.properties");
+        if(properties == null){
+            System.out.println("fbx-to-gdx.properties is required");
+        }
+        FbxConverterOptions options = new FbxConverterOptions(properties);
+
+        FbxConverter fbxConverter = new FbxConverter(options);
         fbxConverter.readDbAndConvertAll();
     }
 }
