@@ -1,5 +1,6 @@
 package com.nzt.converter.fbx;
 
+import com.nzt.converter.Main;
 import com.nzt.converter.utils.FileFinder;
 import com.nzt.converter.utils.PropertiesFileReader;
 import com.nzt.converter.utils.Utils;
@@ -13,6 +14,7 @@ public class FbxConverterTest {
 
     @Test
     public void convertSimpleTest() {
+        Main.getOperatingSystemType();
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/simpleTest").getPath();
         final String fbxResultPath = classLoader.getResource("fbx/simpleTest").getPath();
@@ -27,8 +29,8 @@ public class FbxConverterTest {
 
     @Test
     public void convertFullTest() {
+        Main.getOperatingSystemType();
         ClassLoader classLoader = getClass().getClassLoader();
-
         String fbxFolderPath = classLoader.getResource("fbx/fullTest").getPath();
         String exportPath = classLoader.getResource("fbx/g3db").getPath();
 

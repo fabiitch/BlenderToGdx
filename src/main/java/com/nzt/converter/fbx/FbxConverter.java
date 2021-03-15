@@ -1,5 +1,6 @@
 package com.nzt.converter.fbx;
 
+import com.nzt.converter.Main;
 import com.nzt.converter.utils.ConvertFileWrapper;
 import com.nzt.converter.utils.CsvDb;
 import com.nzt.converter.utils.Utils;
@@ -22,19 +23,22 @@ public class FbxConverter {
     private FbxConverterOptions options;
 
     public FbxConverter(FbxConverterOptions options) {
-        ClassLoader classLoader = getClass().getClassLoader();
         this.options = options;
         this.rt = Runtime.getRuntime();
 
-        File fbxConvExeFile = new File(options.fbxFolderPath + "/fbx-conv.exe");
-        if (!fbxConvExeFile.exists()) {
-            try {
-                FileUtils.copyURLToFile(classLoader.getResource("fbx-conv.exe"), fbxConvExeFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String exeName = "fbx-conv";
+        if (Main.detectedOS == Main.OSType.Windows) {
+            exeName += ".exe";
         }
+
+        File fbxConvExeFile = new File(options.fbxFolderPath + "/" + exeName);
+        if (!fbxConvExeFile.exists()) {
+            FbxCopyResources copyResources = new FbxCopyResources();
+            copyResources.copyResourcesFiles(options.fbxFolderPath);
+        }
+
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
+
         this.csvDb = new CsvDb(options.fbxFolderPath, CSV_FILE_NAME);
 
         System.out.println("Init Done");

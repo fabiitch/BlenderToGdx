@@ -43,13 +43,13 @@ public class FbxConverterOptions {
         if (properties.getProperty("fbxFolderPath") != null) {
             this.fbxFolderPath = properties.getProperty("fbxFolderPath");
         } else {
-            System.out.println("FbxFolderPath s required\"");
+            System.err.println("FbxFolderPath s required\"");
             System.exit(0);
         }
         if (properties.getProperty("exportFolderPath") != null) {
             this.exportFolderPath = properties.getProperty("exportFolderPath");
         } else {
-            System.out.println("exportFolderPath is required");
+            System.err.println("exportFolderPath is required");
             System.exit(0);
         }
         if (isRelativePath) {
