@@ -2,7 +2,7 @@ package com.nzt.converter.fbx;
 
 import com.nzt.converter.Main;
 import com.nzt.converter.utils.FileFinder;
-import com.nzt.converter.utils.PropertiesFileReader;
+import com.nzt.converter.utils.OSType;
 import com.nzt.converter.utils.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,9 @@ public class FbxConverterTest {
 
     @Test
     public void convertSimpleTest() {
-        Main.getOperatingSystemType();
+        if (Main.detectedOS != OSType.Windows) {
+            return;
+        }
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/simpleTest").getPath();
         final String fbxResultPath = classLoader.getResource("fbx/simpleTest").getPath();
@@ -29,12 +31,14 @@ public class FbxConverterTest {
 
     @Test
     public void convertFullTest() {
-        Main.getOperatingSystemType();
+        if (Main.detectedOS != OSType.Windows) {
+            return;
+        }
         ClassLoader classLoader = getClass().getClassLoader();
         String fbxFolderPath = classLoader.getResource("fbx/fullTest").getPath();
         String exportPath = classLoader.getResource("fbx/g3db").getPath();
 
-        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath,exportPath);
+        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath, exportPath);
 
         FbxConverter fbxConverter = new FbxConverter(options);
         fbxConverter.readDbAndConvertAll();

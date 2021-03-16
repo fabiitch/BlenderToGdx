@@ -3,6 +3,7 @@ package com.nzt.converter.fbx;
 import com.nzt.converter.Main;
 import com.nzt.converter.utils.ConvertFileWrapper;
 import com.nzt.converter.utils.CsvDb;
+import com.nzt.converter.utils.OSType;
 import com.nzt.converter.utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -27,24 +28,21 @@ public class FbxConverter {
         this.rt = Runtime.getRuntime();
 
         String exeName = "fbx-conv";
-        if (Main.detectedOS == Main.OSType.Windows) {
+        if (Main.detectedOS == OSType.Windows) {
             exeName += ".exe";
         }
-
-        File fbxConvExeFile = new File(options.fbxFolderPath + "/" + exeName);
+        File fbxConvExeFile = new File(options.fbxFolderPath + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
         if (!fbxConvExeFile.exists()) {
             FbxCopyResources copyResources = new FbxCopyResources();
             copyResources.copyResourcesFiles(options.fbxFolderPath);
         }
-
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
-
         this.csvDb = new CsvDb(options.fbxFolderPath, CSV_FILE_NAME);
 
-        System.out.println("Init Done");
+        System.out.println("============ Init =============");
         System.out.println("fbxFolderPath : " + options.fbxFolderPath);
         System.out.println("exportFolderPath : " + options.exportFolderPath);
-        System.out.println("fbx-conv.exe : " + options.fbxFolderPath);
+        System.out.println("fbx-conv.exe : " + fbxConvExeFile.getAbsolutePath());
     }
 
     public void readDbAndConvertAll() {
