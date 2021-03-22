@@ -54,7 +54,7 @@ public class FbxConverterOptions {
         }
         if (isRelativePath) {
             String initPath = System.getProperty("user.dir");
-            this.fbxFolderPath = initPath  + fbxFolderPath;
+            this.fbxFolderPath = initPath + fbxFolderPath;
             this.exportFolderPath = initPath + exportFolderPath;
         }
         this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
