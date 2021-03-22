@@ -2,16 +2,18 @@ package com.nzt.converter.fbx;
 
 import com.nzt.converter.Main;
 import com.nzt.converter.utils.ConvertFileWrapper;
-import com.nzt.converter.utils.CsvDb;
+import com.nzt.converter.utils.FileFinder;
+import com.nzt.converter.utils.csv.CompareFolderAndDB;
+import com.nzt.converter.utils.csv.CsvDb;
 import com.nzt.converter.utils.OSType;
 import com.nzt.converter.utils.Utils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,25 +33,35 @@ public class FbxConverter {
         if (Main.detectedOS == OSType.Windows) {
             exeName += ".exe";
         }
-        File fbxConvExeFile = new File(options.fbxFolderPath + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
+        String userDir = System.getProperty("user.dir");
+        File fbxConvExeFile = new File(userDir + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
         if (!fbxConvExeFile.exists()) {
             FbxCopyResources copyResources = new FbxCopyResources();
-            copyResources.copyResourcesFiles(options.fbxFolderPath);
+            copyResources.copyResourcesFiles(userDir);
         }
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
-        this.csvDb = new CsvDb(options.fbxFolderPath, CSV_FILE_NAME);
+        this.csvDb = new CsvDb(userDir, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
 
-        System.out.println("============ Init =============");
         System.out.println("fbxFolderPath : " + options.fbxFolderPath);
         System.out.println("exportFolderPath : " + options.exportFolderPath);
         System.out.println("fbx-conv.exe : " + fbxConvExeFile.getAbsolutePath());
+        System.out.println("============ End Init =============");
     }
 
     public void readDbAndConvertAll() {
-        csvDb.read();
-        List<ConvertFileWrapper> wrapperConvertFiles = csvDb.compareWithExisting(".fbx");
+        System.out.println("");
+        System.out.println("===== Read CSV DB ========");
+        HashMap<String, String> csvValues = csvDb.read();
+        HashMap<String, String> filesInFolder = FileFinder.findAllFiles(options.fbxFolderPath, ".fbx");
+        System.out.println("Found " + csvValues.size() + " entry in csv Files");
+        System.out.println("Found " + filesInFolder.size() + " files .fbx in FbxFolder");
+        List<ConvertFileWrapper> wrapperConvertFiles = CompareFolderAndDB.compare(filesInFolder, csvValues);
+
         List<ConvertFileWrapper> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
         System.out.println(toConvertList.size() + " / " + wrapperConvertFiles.size() + " files to convert");
+        System.out.println("==== END  compareWithExisting ====");
+
+        System.err.println("======= Start Conversion Files:");
         for (ConvertFileWrapper file : toConvertList) {
             String folderPath = FilenameUtils.getFullPathNoEndSeparator(file.relativePath);
             Utils.createAllFolderForPath(options.exportFolderPath, folderPath);
