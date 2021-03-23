@@ -18,16 +18,25 @@ public class Main {
             System.err.println("Bad OS detected, need window, macos or linux");
             System.exit(0);
         }
-        PropertiesFileReader propertiesFileReader = new PropertiesFileReader();
         String userDir = System.getProperty("user.dir");
-
         System.out.println("[Init] OS =" + detectedOS.toString());
         System.out.println("[Init] user.dir =" + userDir);
-        Properties properties = propertiesFileReader.read(userDir + BLENDER_TO_GDX_FOLDER_CONF + "/fbx-to-gdx.properties");
+
+        fbxToGdx(userDir);
+    }
+
+
+    public static void fbxToGdx(String startPath) {
+        System.out.println("============================");
+        System.out.println("    Fbx To GDX");
+        System.out.println("============================");
+        PropertiesFileReader propertiesFileReader = new PropertiesFileReader();
+        Properties properties = propertiesFileReader.read(startPath + BLENDER_TO_GDX_FOLDER_CONF + "/fbx-to-gdx.properties");
         if (properties == null) {
             System.err.println("fbx-to-gdx.properties is required");
         }
-        FbxConverterOptions options = new FbxConverterOptions(properties);
+        FbxConverterOptions options = new FbxConverterOptions(startPath, properties);
+
 
         FbxConverter fbxConverter = new FbxConverter(options);
         fbxConverter.readDbAndConvertAll();

@@ -21,7 +21,7 @@ public class FbxConverterTest {
         String fbxFolderPath = classLoader.getResource("fbx/simpleTest").getPath();
         final String fbxResultPath = classLoader.getResource("fbx/simpleTest").getPath();
 
-        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath, fbxResultPath);
+        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath, fbxFolderPath, fbxResultPath);
         FbxConverter fbxConverter = new FbxConverter(options);
         fbxConverter.convertFile("playerCube.fbx");
 
@@ -38,7 +38,7 @@ public class FbxConverterTest {
         String fbxFolderPath = classLoader.getResource("fbx/fullTest").getPath();
         String exportPath = classLoader.getResource("fbx/g3db").getPath();
 
-        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath, exportPath);
+        FbxConverterOptions options = new FbxConverterOptions(fbxFolderPath, fbxFolderPath, exportPath);
 
         FbxConverter fbxConverter = new FbxConverter(options);
         fbxConverter.readDbAndConvertAll();

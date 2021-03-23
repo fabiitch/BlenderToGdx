@@ -20,10 +20,11 @@ import java.util.stream.Collectors;
 public class FbxConverter {
     private static String CSV_FILE_NAME = "fbx-to-gdx-db.csv";
     private Runtime rt;
-    private String fbxExePath;
+
 
     private CsvDb csvDb;
     private FbxConverterOptions options;
+    private String fbxExePath;
 
     public FbxConverter(FbxConverterOptions options) {
         this.options = options;
@@ -33,14 +34,13 @@ public class FbxConverter {
         if (Main.detectedOS == OSType.Windows) {
             exeName += ".exe";
         }
-        String userDir = System.getProperty("user.dir");
-        File fbxConvExeFile = new File(userDir + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
+        File fbxConvExeFile = new File(options.startPath + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
         if (!fbxConvExeFile.exists()) {
             FbxCopyResources copyResources = new FbxCopyResources();
-            copyResources.copyResourcesFiles(userDir);
+            copyResources.copyResourcesFiles(options.startPath);
         }
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
-        this.csvDb = new CsvDb(userDir, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
+        this.csvDb = new CsvDb(options.startPath, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
 
         System.out.println("fbxFolderPath : " + options.fbxFolderPath);
         System.out.println("exportFolderPath : " + options.exportFolderPath);
