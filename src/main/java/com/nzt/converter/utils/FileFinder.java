@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public class FileFinder {
             for (String f : result) {
                 Path file = Paths.get(relativePath + "/" + f);
                 BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
-                mapFbxFiles.put(f, attr.lastModifiedTime().toString());
+                mapFbxFiles.put(Utils.replacePathForFbx(f), attr.lastModifiedTime().toString());
             }
 
         } catch (IOException e) {

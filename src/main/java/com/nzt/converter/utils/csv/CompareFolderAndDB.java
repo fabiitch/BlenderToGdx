@@ -18,6 +18,8 @@ public class CompareFolderAndDB {
             if (csvValues.containsKey(relativePathFile) && lastModifiedTime.equals(csvValues.get(relativePathFile))) {
                 toConvert = false;
             }
+            System.out.println(relativePathFile + " last modif :" + lastModifiedTime + ", csvDate:" + csvValues.get(relativePathFile));
+
             ConvertFileWrapper wrapperConvertFile = new ConvertFileWrapper(toConvert, fileEntry.getKey(), fileEntry.getValue());
             list.add(wrapperConvertFile);
         }

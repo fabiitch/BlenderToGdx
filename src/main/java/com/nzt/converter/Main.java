@@ -22,13 +22,20 @@ public class Main {
         System.out.println("[Init] OS =" + detectedOS.toString());
         System.out.println("[Init] user.dir =" + userDir);
 
+        blenderToFbx();
         fbxToGdx(userDir);
     }
 
+    public static void blenderToFbx(){
+        System.out.println("============================");
+        System.out.println("Step 2 : Blender to Fbx");
+        System.out.println("nothing !");
+        System.out.println("============================");
+    }
 
     public static void fbxToGdx(String startPath) {
         System.out.println("============================");
-        System.out.println("    Fbx To GDX");
+        System.out.println("Step 1 : Fbx To GDX");
         System.out.println("============================");
         PropertiesFileReader propertiesFileReader = new PropertiesFileReader();
         Properties properties = propertiesFileReader.read(startPath + BLENDER_TO_GDX_FOLDER_CONF + "/fbx-to-gdx.properties");

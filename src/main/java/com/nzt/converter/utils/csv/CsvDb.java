@@ -41,12 +41,12 @@ public class CsvDb {
                     .withFirstRecordAsHeader()
                     .parse(in);
             for (CSVRecord record : records) {
-                String path = record.get(HEADERS[0]);
+                String path = Utils.replacePathForFbx(record.get(HEADERS[0]));
                 String lastModifiedTime = record.get(HEADERS[1]);
-                csvValues.put(path,lastModifiedTime);
+                csvValues.put(path, lastModifiedTime);
             }
         } catch (IOException ioException) {
-          return new HashMap<>();
+            return new HashMap<>();
         }
         return this.csvValues;
     }
