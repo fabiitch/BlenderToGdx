@@ -48,6 +48,9 @@ public class FbxConverterTest {
         Assertions.assertNotNull(classLoader.getResource("fbx/g3db/player/skins/playerSkin2.g3db"));
 
         HashMap<String, String> fbxResultPath1 = FileFinder.findAllFiles(exportPath, ".fbx");
+        System.err.println("================");
+        System.err.println("================");
+        System.err.println("Second convert");
         fbxConverter.readDbAndConvertAll();
         HashMap<String, String> fbxResultPath2 = FileFinder.findAllFiles(exportPath, ".fbx");
 

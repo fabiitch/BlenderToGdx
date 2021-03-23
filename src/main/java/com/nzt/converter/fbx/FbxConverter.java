@@ -41,11 +41,10 @@ public class FbxConverter {
         }
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
         this.csvDb = new CsvDb(options.startPath, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
-
+        System.out.println("Jar path : " + options.startPath);
         System.out.println("fbxFolderPath : " + options.fbxFolderPath);
         System.out.println("exportFolderPath : " + options.exportFolderPath);
         System.out.println("fbx-conv.exe : " + fbxConvExeFile.getAbsolutePath());
-        System.out.println("============ End Init =============");
     }
 
     public void readDbAndConvertAll() {
@@ -59,9 +58,15 @@ public class FbxConverter {
 
         List<ConvertFileWrapper> toConvertList = wrapperConvertFiles.stream().filter(w -> w.toConvert).collect(Collectors.toList());
         System.out.println(toConvertList.size() + " / " + wrapperConvertFiles.size() + " files to convert");
-        System.out.println("==== END  compareWithExisting ====");
 
-        System.err.println("======= Start Conversion Files:");
+        System.out.println();
+        System.out.println();
+        if (toConvertList.size() > 0) {
+            System.out.println("======= No Files to Convert to .g3DB");
+        } else {
+            System.out.println("======= Start Conversion Files:");
+        }
+
         for (ConvertFileWrapper file : toConvertList) {
             String folderPath = FilenameUtils.getFullPathNoEndSeparator(file.relativePath);
             Utils.createAllFolderForPath(options.exportFolderPath, folderPath);
