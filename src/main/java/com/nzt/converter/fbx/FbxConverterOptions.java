@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class FbxConverterOptions {
 
+    public String startPath; //path of jar location
     public String fbxFolderPath;
     public String exportFolderPath;
     public boolean isRelativePath;
@@ -31,12 +32,14 @@ public class FbxConverterOptions {
     //Verbose: print additional progress information
     public boolean verbose = false;
 
-    public FbxConverterOptions(String fbxFolderPath, String exportFolderPath) {
+    public FbxConverterOptions(String startPath, String fbxFolderPath, String exportFolderPath) {
+        this.startPath = startPath;
         this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
         this.exportFolderPath = Utils.replacePath(exportFolderPath);
     }
 
-    public FbxConverterOptions(Properties properties) {
+    public FbxConverterOptions(String startPath, Properties properties) {
+        this.startPath = startPath;
         if (properties.getProperty("isRelativePath") != null) {
             this.isRelativePath = Boolean.parseBoolean(properties.getProperty("isRelativePath"));
         }
