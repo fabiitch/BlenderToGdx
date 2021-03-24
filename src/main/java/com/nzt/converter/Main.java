@@ -18,15 +18,19 @@ public class Main {
             System.err.println("Bad OS detected, need window, macos or linux");
             System.exit(0);
         }
-        String userDir = System.getProperty("user.dir");
         System.out.println("[Init] OS =" + detectedOS.toString());
+        String userDir = System.getProperty("user.dir");
         System.out.println("[Init] user.dir =" + userDir);
-
+        String jarRelativePath = "";
+        if (args != null && args.length == 1) {
+            jarRelativePath = args[0];
+            System.out.println("[Init] jarRelativePath =" + jarRelativePath);
+        }
         blenderToFbx();
-        fbxToGdx(userDir);
+        fbxToGdx(userDir + jarRelativePath);
     }
 
-    public static void blenderToFbx(){
+    public static void blenderToFbx() {
         System.out.println("============================");
         System.out.println("Step 2 : Blender to Fbx");
         System.out.println("nothing !");
