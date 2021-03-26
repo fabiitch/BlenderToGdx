@@ -60,7 +60,6 @@ public class FbxConverter {
         System.out.println(toConvertList.size() + " / " + wrapperConvertFiles.size() + " files to convert");
 
         System.out.println();
-        System.out.println();
         if (toConvertList.size() > 0) {
             System.out.println("======= No Files to Convert to .g3DB");
         } else {

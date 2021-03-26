@@ -34,8 +34,8 @@ public class FbxConverterOptions {
 
     public FbxConverterOptions(String startPath, String fbxFolderPath, String exportFolderPath) {
         this.startPath = startPath;
-        this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
-        this.exportFolderPath = Utils.replacePath(exportFolderPath);
+        this.fbxFolderPath = Utils.replacePath(startPath + fbxFolderPath);
+        this.exportFolderPath = Utils.replacePath(startPath + exportFolderPath);
     }
 
     public FbxConverterOptions(String startPath, Properties properties) {
@@ -56,9 +56,8 @@ public class FbxConverterOptions {
             System.exit(0);
         }
         if (isRelativePath) {
-            String initPath = System.getProperty("user.dir");
-            this.fbxFolderPath = initPath + fbxFolderPath;
-            this.exportFolderPath = initPath + exportFolderPath;
+            this.fbxFolderPath = startPath + fbxFolderPath;
+            this.exportFolderPath = startPath + exportFolderPath;
         }
         this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
         this.exportFolderPath = Utils.replacePath(exportFolderPath);
