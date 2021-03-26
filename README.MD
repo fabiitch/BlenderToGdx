@@ -4,6 +4,7 @@
 
 ### Step 1 : Blender to Fbx format => not impl
 ### Step 2 : Fbx to G3DB =>  impl
+#### Its working for me on my project(i test only on windows), the code and the configuration is not friendly
 ****
 ### Why ?
 When u modify a 3D model in blender, 
@@ -24,7 +25,16 @@ The goal of this project is to do this 2 step automatically at each build.gradle
 ****
 ### How to use ?
 1) Use jar directly java -jar BlenderToGdx
-2) Add to your gradle.build
+2) Add to your core/build.gradle
+   ```
+   processResources.dependsOn('blenderToGdx')
+   task blenderToGdx(type: JavaExec) {
+    group 'other'
+    description 'Execute BlenderToGdx jar'
+    classpath = files('../blender/BlenderToGdx.jar')
+    args = ["/jarPosition"] //here
+    }
+   ```
 3) Modify source to set your path directly and rexport as jar
 
 ****
