@@ -5,6 +5,8 @@ import com.nzt.converter.fbx.FbxConverterOptions;
 import com.nzt.converter.utils.OSType;
 import com.nzt.converter.utils.PropertiesFileReader;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Properties;
 
 public class Main {
@@ -19,6 +21,7 @@ public class Main {
             System.exit(0);
         }
         System.out.println("[Init] OS =" + detectedOS.toString());
+
         String userDir = System.getProperty("user.dir");
         System.out.println("[Init] user.dir =" + userDir);
         String jarRelativePath = "";
