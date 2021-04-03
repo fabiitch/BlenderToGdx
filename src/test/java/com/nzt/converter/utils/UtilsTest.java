@@ -3,6 +3,10 @@ package com.nzt.converter.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class UtilsTest {
 
     @Test
@@ -14,9 +18,9 @@ public class UtilsTest {
     }
 
     @Test
-    public void testCreateFolder() {
+    public void testCreateFolder() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String fbxFolderPath = Utils.replacePath(classLoader.getResource("fbx").getPath());
+        Path fbxFolderPath = Paths.get(classLoader.getResource("fbx").toURI());
         String folderPath = "create/folder/test";
         boolean ok = Utils.createAllFolderForPath(fbxFolderPath, folderPath);
         Assertions.assertTrue(ok);

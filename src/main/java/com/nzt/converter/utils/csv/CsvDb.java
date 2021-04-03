@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,13 @@ public class CsvDb {
 
     private static String[] HEADERS = {"Path", "LastModificationDate"};
     private static char DELIMITER = ';';
-    private String folderStartPath;
+    private Path folderStartPath;
     private String csvFileName;
     public HashMap<String, String> csvValues;
 
 
-    public CsvDb(String folderStartPath, String csvFileName) {
-        this.folderStartPath = Utils.replacePath(folderStartPath);
+    public CsvDb(Path folderStartPath, String csvFileName) {
+        this.folderStartPath = folderStartPath;
         this.csvFileName = csvFileName;
         this.csvValues = new HashMap<>();
     }

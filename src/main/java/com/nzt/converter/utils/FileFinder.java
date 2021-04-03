@@ -15,9 +15,9 @@ public class FileFinder {
     /*
     return map<RelativePath,Lastmodified>
      */
-    public static HashMap<String, String> findAllFiles(String folderPathStart, String extensionFiles) {
+    public static HashMap<String, String> findAllFiles(Path path, String extensionFiles) {
         HashMap<String, String> mapFbxFiles = new HashMap<>();
-        Path relativePath = Paths.get(Utils.replacePath(folderPathStart));
+        Path relativePath = path;
         try (Stream<Path> walk = Files.walk(relativePath)) {
             List<String> result = walk.filter(Files::isRegularFile).filter(f -> f.getFileName().toString().endsWith(extensionFiles))
                     .map(x -> relativePath.relativize(x).toString()).collect(Collectors.toList());

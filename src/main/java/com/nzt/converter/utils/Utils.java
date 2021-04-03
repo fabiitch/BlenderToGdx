@@ -1,6 +1,7 @@
 package com.nzt.converter.utils;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class Utils {
     private static String OS = System.getProperty("os.name");
@@ -19,9 +20,9 @@ public class Utils {
         return path;
     }
 
-    public static boolean createAllFolderForPath(String startPath, String pathFile) {
+    public static boolean createAllFolderForPath(Path startPath, String pathFile) {
         String[] split = pathFile.split("/");
-        String s = startPath;
+        String s = startPath.toString();
         boolean ok = true;
         for (int i = 0; i < split.length; i++) {
             s += "/" + split[i];
