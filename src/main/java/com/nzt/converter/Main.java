@@ -5,8 +5,6 @@ import com.nzt.converter.fbx.FbxConverterOptions;
 import com.nzt.converter.utils.OSType;
 import com.nzt.converter.utils.PropertiesFileReader;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Properties;
 
 public class Main {

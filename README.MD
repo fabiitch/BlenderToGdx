@@ -31,8 +31,8 @@ The goal of this project is to do this 2 step automatically at each build.gradle
    task blenderToGdx(type: JavaExec) {
     group 'other'
     description 'Execute BlenderToGdx jar'
-    classpath = files('../blender/BlenderToGdx.jar')
-    args = ["/jarPosition"] //here
+    classpath = files('../blender/BlenderToGdx.jar') //jar Folder
+    args = ["/jarPosition"] //jar Folder
     }
    ```
 3) Modify source to set your path directly and rexport as jar
@@ -46,3 +46,4 @@ The goal of this project is to do this 2 step automatically at each build.gradle
 4) Convert all fbx files to .G3DB/G3DJ and keep file name and tree structure
 5) Write in a CSV file([fbx-convert-db.csv](src/test/resources/fbx/fullTest/BlenderToGdx/fbx-to-gdx-db.csv) the path and last modification date of the .fbx
 6) Next execution will look the last modification date of the .fbx and compare with CSV to check if the file need to be reexported
+7) a .gitignore file is created for exclude fbx-conv exe and fbx-convert-db.csv
