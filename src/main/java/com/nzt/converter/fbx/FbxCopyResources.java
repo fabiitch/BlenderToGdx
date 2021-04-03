@@ -11,6 +11,19 @@ import java.io.InputStreamReader;
 
 public class FbxCopyResources {
 
+    public void copyGitIngnore(String path){
+        ClassLoader classLoader = getClass().getClassLoader();
+        File gitIngoreFile = new File(path + Main.BLENDER_TO_GDX_FOLDER_CONF + "/.gitignore");
+        try {
+            FileUtils.copyURLToFile(classLoader.getResource("gitIgnore"), gitIngoreFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error during copy  .gitIgnore");
+            System.exit(0);
+        }
+        gitIngoreFile.setReadable(true, false);
+        gitIngoreFile.setExecutable(true);
+    }
     public void copyResourcesFiles(String path) {
         ClassLoader classLoader = getClass().getClassLoader();
         if (Main.detectedOS == OSType.Windows) {

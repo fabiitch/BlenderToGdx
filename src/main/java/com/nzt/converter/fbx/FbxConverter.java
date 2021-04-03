@@ -38,6 +38,7 @@ public class FbxConverter {
         if (!fbxConvExeFile.exists()) {
             FbxCopyResources copyResources = new FbxCopyResources();
             copyResources.copyResourcesFiles(options.startPath);
+            copyResources.copyGitIngnore(options.startPath);
         }
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
         this.csvDb = new CsvDb(options.startPath, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
