@@ -21,7 +21,6 @@ public class FbxConverter {
     private static String CSV_FILE_NAME = "fbx-to-gdx-db.csv";
     private Runtime rt;
 
-
     private CsvDb csvDb;
     private FbxConverterOptions options;
     private String fbxExePath;
@@ -34,15 +33,15 @@ public class FbxConverter {
         if (Main.detectedOS == OSType.Windows) {
             exeName += ".exe";
         }
-        File fbxConvExeFile = new File(options.startPath + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
+        File fbxConvExeFile = new File(options.jarPath + Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + exeName);
         if (!fbxConvExeFile.exists()) {
             FbxCopyResources copyResources = new FbxCopyResources();
-            copyResources.copyResourcesFiles(options.startPath);
-            copyResources.copyGitIngnore(options.startPath);
+            copyResources.copyResourcesFiles(options.jarPath.toString());
+            copyResources.copyGitIngnore(options.jarPath.toString());
         }
         this.fbxExePath = Utils.replacePathForFbx(fbxConvExeFile.getAbsolutePath());
-        this.csvDb = new CsvDb(options.startPath, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
-        System.out.println("Jar path : " + options.startPath);
+        this.csvDb = new CsvDb(options.jarPath, Main.BLENDER_TO_GDX_FOLDER_CONF + "/" + CSV_FILE_NAME);
+        System.out.println("Jar path : " + options.jarPath);
         System.out.println("fbxFolderPath : " + options.fbxFolderPath);
         System.out.println("exportFolderPath : " + options.exportFolderPath);
         System.out.println("fbx-conv.exe : " + fbxConvExeFile.getAbsolutePath());
@@ -100,11 +99,9 @@ public class FbxConverter {
             Process exec = null;
             exec = rt.exec(commandArgs + " " + fileFbxPath + " " + convertedPath);
 
-            BufferedReader stdInput = new BufferedReader(new
-                    InputStreamReader(exec.getInputStream()));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(exec.getInputStream()));
 
-            BufferedReader stdError = new BufferedReader(new
-                    InputStreamReader(exec.getErrorStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(exec.getErrorStream()));
 
             // Read the output from the command
             System.out.println("Fbx convert file : " + filePath);

@@ -5,6 +5,9 @@ import com.nzt.converter.utils.csv.CsvDb;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,10 +15,9 @@ import java.util.stream.Collectors;
 public class CsvDbTest {
 
     @Test
-    public void writeAndReadTest() {
+    public void writeAndReadTest() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String startFolderPath = classLoader.getResource("csv").getPath();
-
+        Path startFolderPath = Paths.get(classLoader.getResource("csv").toURI());
         CsvDb csvDb = new CsvDb(startFolderPath, "db-write.csv");
         csvDb.csvValues.put("working/add1", "1213L");
         csvDb.csvValues.put("working/add2", "5555");
@@ -29,9 +31,9 @@ public class CsvDbTest {
     }
 
     @Test
-    public void findFileAndCompareTest() {
+    public void findFileAndCompareTest() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String startFolderPath = classLoader.getResource("csv/read-compare").getPath();
+        Path startFolderPath = Paths.get(classLoader.getResource("csv").toURI());
         CsvDb csvDb = new CsvDb(startFolderPath, "db-txt.csv");
 
         HashMap<String, String> csvValues = csvDb.read();
@@ -50,7 +52,7 @@ public class CsvDbTest {
 
         csvDb.csvValues.entrySet().stream().findFirst().get().setValue("wrongUselessDate");//modif timemillis
 
-        convertFileWrappers  = CompareFolderAndDB.compare(filesInFolder, csvDb.csvValues);
+        convertFileWrappers = CompareFolderAndDB.compare(filesInFolder, csvDb.csvValues);
         Assertions.assertEquals(4, convertFileWrappers.size());
 
         fileToConvert = convertFileWrappers.stream().filter(f -> f.toConvert).collect(Collectors.toList());

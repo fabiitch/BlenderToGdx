@@ -2,14 +2,15 @@ package com.nzt.converter.fbx;
 
 import com.nzt.converter.utils.Utils;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class FbxConverterOptions {
 
-    public String startPath; //path of jar location
-    public String fbxFolderPath;
-    public String exportFolderPath;
-    public boolean isRelativePath;
+    public Path jarPath; //path of jar location
+    public Path fbxFolderPath;
+    public Path exportFolderPath;
 
     //G3DJ (json) or G3DB (binary).
     public boolean binary = true;
@@ -32,36 +33,26 @@ public class FbxConverterOptions {
     //Verbose: print additional progress information
     public boolean verbose = false;
 
-    public FbxConverterOptions(String startPath, String fbxFolderPath, String exportFolderPath) {
-        this.startPath = startPath;
-        this.fbxFolderPath = Utils.replacePath(startPath + fbxFolderPath);
-        this.exportFolderPath = Utils.replacePath(startPath + exportFolderPath);
+    public FbxConverterOptions(Path jarPath, Path fbxFolderPath, Path exportFolderPath) {
+        this.jarPath = jarPath;
+        this.fbxFolderPath = fbxFolderPath;
+        this.exportFolderPath = exportFolderPath;
     }
 
-    public FbxConverterOptions(String startPath, Properties properties) {
-        this.startPath = startPath;
-        if (properties.getProperty("isRelativePath") != null) {
-            this.isRelativePath = Boolean.parseBoolean(properties.getProperty("isRelativePath"));
-        }
+    public FbxConverterOptions(Path jarPath, Properties properties) {
+        this.jarPath = jarPath;
         if (properties.getProperty("fbxFolderPath") != null) {
-            this.fbxFolderPath = properties.getProperty("fbxFolderPath");
+            this.fbxFolderPath = new File(jarPath.toString() + properties.getProperty("fbxFolderPath")).toPath();
         } else {
             System.err.println("FbxFolderPath s required\"");
             System.exit(0);
         }
         if (properties.getProperty("exportFolderPath") != null) {
-            this.exportFolderPath = properties.getProperty("exportFolderPath");
+            this.exportFolderPath = new File(jarPath.toString() + properties.getProperty("exportFolderPath")).toPath();
         } else {
             System.err.println("exportFolderPath is required");
             System.exit(0);
         }
-        if (isRelativePath) {
-            this.fbxFolderPath = startPath + fbxFolderPath;
-            this.exportFolderPath = startPath + exportFolderPath;
-        }
-        this.fbxFolderPath = Utils.replacePath(fbxFolderPath);
-        this.exportFolderPath = Utils.replacePath(exportFolderPath);
-
 
         if (properties.getProperty("binary") != null)
             this.binary = Boolean.parseBoolean(properties.getProperty("binary"));
