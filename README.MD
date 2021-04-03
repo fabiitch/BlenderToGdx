@@ -21,7 +21,7 @@ The goal of this project is to do this 2 step automatically at each build.gradle
 4) Inside BlendertoGdx, create a properties file for export options, [example properties file](src/test/resources/fbx/fullTest/BlenderToGdx/fbx-to-gdx.properties)
 5) Configure properties (exemple non binary export, flip texture, [look differents option](https://github.com/libgdx/fbx-conv))
 6) The required properties are 'fbxFolderPath' (folder who contains all .fbx) and 'exportFolderPath' (generally your assets/models folder)
-7) if you use relative path, its relative to Jar position (not properties files)
+7) The paths should be relative to jar position
 ****
 ### How to use ?
 1) Use jar directly java -jar BlenderToGdx
