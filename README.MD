@@ -14,7 +14,7 @@ When u modify a 3D model in blender,
 The goal of this project is to do this 2 step automatically at each build.gradle for all files.
 ****
 ### Configuration
-(linux and macos) set up environment for binary lib see [fbx-conv](https://github.com/libgdx/fbx-conv))
+(linux and macos) set up environment for binary lib see [fbx-conv](https://github.com/libgdx/fbx-conv)
 1) Download jar
 2) Put it in your favorite folder
 3) Create folder BlendertoGdx at same level
